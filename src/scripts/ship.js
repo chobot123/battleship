@@ -1,22 +1,23 @@
-const SHIP = (length) => {
+const Ship = (length) => {
     
-    shipParts = Array.apply(null, Array(length))
+    const shipParts = Array.apply(null, Array(length))
         .map(function (x, i) { 
             x = {
                 "isHit" : false,
                 "position" : i
             }
+            return x;
         }
     ); 
 
     const hit = (pos) => {
         if(shipParts[pos].isHit === false) {
-            return true;
+            shipParts[pos].isHit = true;
         }
     }
     
     const isSunk = () => {
-        if(shipParts.filter((e) => {e.isHit === true}).length === length - 1) {
+        if(shipParts.filter((e) => {return e.isHit === true}).length === length) {
             return true;
         }
         else {return false;}
@@ -29,3 +30,5 @@ const SHIP = (length) => {
         isSunk
     }
 }
+
+module.exports = Ship;
