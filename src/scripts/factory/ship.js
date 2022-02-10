@@ -1,4 +1,4 @@
-const Ship = (length) => {
+const Ship = (name, length) => {
     
     const shipParts = Array.apply(null, Array(length))
         .map(function (x, i) { 
@@ -13,6 +13,7 @@ const Ship = (length) => {
     const hit = (pos) => {
         if(shipParts[pos].isHit === false) {
             shipParts[pos].isHit = true;
+            return true;
         }
     }
     
@@ -24,11 +25,14 @@ const Ship = (length) => {
     }
 
     return {
+        name,
         length,
         shipParts,
         hit,
-        isSunk
+        isSunk,
     }
 }
 
 module.exports = Ship;
+
+export { Ship }

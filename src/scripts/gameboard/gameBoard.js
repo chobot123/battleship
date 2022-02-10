@@ -1,0 +1,82 @@
+
+
+const Gameboard = () => {
+
+    const ships = [];
+
+    const createBoard = () => {
+        let tempArray = Array(10);
+        for(let i = 0; i < 10; i++){
+            tempArray[i] = Array.from({length: 10}, (e) => {
+                if(e === undefined){
+                    return e = {
+                        ship: 'none',
+                        shipPart: 'none',
+                        status: 0 //0 = nothing, 1 = miss, 2 = hit
+                    }
+                }
+            })
+        }
+        return tempArray;
+    }
+    const myBoard = createBoard();
+
+
+    const placeShip = (myShip, x, y, align = 'vertical') => {
+        if((x >= 0 && x <= 9) && (y >= 0 && y <= 9)){
+            let pos = 0;
+            ships.push(myShip);
+            if(align === 'horizontal'){
+                if(y + myShip.length > 10){
+                    return false;
+                }
+                for(let i = y; i < y + myShip.length; i++){
+                    myBoard[x][i].ship = myShip.name;
+                    myBoard[x][i].shipPart = myShip.shipParts[pos].position;
+                    pos++;
+                }
+            }
+            else{
+                if(x + myShip.length > 10){
+                    return false;
+                }
+                for(let i = x; i < x + myShip.length; i++){
+                    myBoard[i][y].ship = myShip.name;
+                    myBoard[i][y].shipPart = myShip.shipParts[pos].position;
+                    pos++;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    const receiveAttack = (x, y) => {
+        if(myBoard[x][y] !== 'none'){
+            ships.find(e => e.name = myBoard[x][y].ship)
+                .hit(myBoard[x][y].shipPart);
+
+            return myBoard[x][y].status = 2;
+        }
+        else {
+            return myBoard[x][y].status = 1;
+        }
+    }
+
+    const isAllSunk = () => {
+        
+        return (ships.every(e => e.isSunk === true)) ? true : false;
+        
+        
+    }
+
+    return {
+        ships,
+        myBoard,
+        placeShip,
+        receiveAttack,
+        isAllSunk
+    }
+}
+
+module.exports = Gameboard;
