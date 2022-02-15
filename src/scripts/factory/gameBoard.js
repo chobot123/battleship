@@ -1,8 +1,19 @@
-
+import { Ship } from "./ship";
 
 const Gameboard = () => {
+    const carrier = Ship('carrier', 5);
+    const battleship = Ship('battleship', 4);
+    const cruiser = Ship('cruiser', 3);
+    const submarine = Ship('submarine', 3);
+    const destroyer = Ship('destroyer', 2);
 
-    const ships = [];
+    const ships = [
+        carrier,
+        battleship,
+        cruiser,
+        submarine,
+        destroyer
+    ];
 
     const createBoard = () => {
         let tempArray = Array(10);
@@ -27,7 +38,7 @@ const Gameboard = () => {
             let pos = 0;
             ships.push(myShip);
             if(align === 'horizontal'){
-                if(y + myShip.length > 10){
+                if(y + myShip.length >= 10){
                     return false;
                 }
                 for(let i = y; i < y + myShip.length; i++){
@@ -36,8 +47,8 @@ const Gameboard = () => {
                     pos++;
                 }
             }
-            else{
-                if(x + myShip.length > 10){
+            else if(align === 'vertical') {
+                if(x + myShip.length >= 10){
                     return false;
                 }
                 for(let i = x; i < x + myShip.length; i++){
@@ -51,15 +62,18 @@ const Gameboard = () => {
         return false;
     }
 
+    
     const receiveAttack = (x, y) => {
-        if(myBoard[x][y] !== 'none'){
+        if(myBoard[x][y].ship !== 'none'){
             ships.find(e => e.name = myBoard[x][y].ship)
                 .hit(myBoard[x][y].shipPart);
 
-            return myBoard[x][y].status = 2;
+            myBoard[x][y].status = 2;
+            return true;
         }
         else {
-            return myBoard[x][y].status = 1;
+            myBoard[x][y].status = 1;
+            return false;
         }
     }
 

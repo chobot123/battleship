@@ -1,5 +1,5 @@
 const myShip = require('../scripts/factory/ship');
-const gameBoard = require('../scripts/gameboard/gameBoard');
+const gameBoard = require('../scripts/factory/gameBoard');
 
 const mockBoard = gameBoard();
 
@@ -65,8 +65,8 @@ const mockBoard = gameBoard();
 
 test(`Check if receive attack records hit for ship and updates board`, () => {
     const mockShip = myShip('mock', 3);
-    mockBoard.placeShip(mockShip, 6, 6);
-    mockBoard.receiveAttack(5,5);
-    expect(mockBoard).toBe(3);
+    expect(mockBoard.placeShip(mockShip, 5, 5)).toBe(true);
+    expect(mockBoard.receiveAttack(6,6)).toBe(false);
+    // expect(mockBoard.myBoard).toBe(3);
     // expect(mockShip).toBe(false);
 })
