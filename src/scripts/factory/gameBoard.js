@@ -1,19 +1,8 @@
-import { Ship } from "./ship";
+
 
 const Gameboard = () => {
-    const carrier = Ship('carrier', 5);
-    const battleship = Ship('battleship', 4);
-    const cruiser = Ship('cruiser', 3);
-    const submarine = Ship('submarine', 3);
-    const destroyer = Ship('destroyer', 2);
 
-    const ships = [
-        carrier,
-        battleship,
-        cruiser,
-        submarine,
-        destroyer
-    ];
+    const ships = [];
 
     const createBoard = () => {
         let tempArray = Array(10);
@@ -34,11 +23,12 @@ const Gameboard = () => {
 
 
     const placeShip = (myShip, x, y, align = 'vertical') => {
+        x = parseInt(x);
+        y = parseInt(y);
         if((x >= 0 && x <= 9) && (y >= 0 && y <= 9)){
             let pos = 0;
-            ships.push(myShip);
             if(align === 'horizontal'){
-                if(y + myShip.length >= 10){
+                if(y + myShip.length > 10){
                     return false;
                 }
                 for(let i = y; i < y + myShip.length; i++){
@@ -48,7 +38,7 @@ const Gameboard = () => {
                 }
             }
             else if(align === 'vertical') {
-                if(x + myShip.length >= 10){
+                if(x + myShip.length > 10){
                     return false;
                 }
                 for(let i = x; i < x + myShip.length; i++){

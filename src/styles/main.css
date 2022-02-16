@@ -30,9 +30,40 @@ body {
     display: flex;
 }
 
-.carrier{
+/* .carrier-grid{
     display: grid;
     grid-template: repeat(5, minmax(0, 40px));
     min-width: 40px;
     min-height: 200px;
+    background-color: blue;
+} */
+
+.ships-container {
+    margin: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.carrier,
+.carrier-container {
+    background-color: aqua;
+}
+
+.battleship,
+.battleship-container {
+    background-color: pink;
+}
+
+.cruiser,
+.cruiser-container {
+    background-color: lightgreen;
+}
+.submarine,
+.submarine-container {
+    background-color: lightcoral;
+}
+.destroyer,
+.destroyer-container {
+    background-color: yellow;
 }

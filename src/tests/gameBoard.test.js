@@ -3,22 +3,22 @@ const gameBoard = require('../scripts/factory/gameBoard');
 
 const mockBoard = gameBoard();
 
-// test('Check if game board exists', () => {
-//     expect(mockBoard.myBoard).toBeInstanceOf(Array);
-// })
+test('Check if game board exists', () => {
+    expect(mockBoard.myBoard).toBeInstanceOf(Array);
+})
 
-// test('Check if game board elements hold proper obj values', () => {
-//     const mockObj = {
-//         ship: 'none',
-//         shipPart: 'none',
-//         status: 0
-//     }
-//     for(let i = 0; i < mockBoard.myBoard.length; i++){
-//         for(let j = 0; j < mockBoard.myBoard[i].length; j++){
-//             expect(mockBoard.myBoard[i][j]).toMatchObject(mockObj);
-//         }
-//     }
-// })
+test('Check if game board elements hold proper obj values', () => {
+    const mockObj = {
+        ship: 'none',
+        shipPart: 'none',
+        status: 0
+    }
+    for(let i = 0; i < mockBoard.myBoard.length; i++){
+        for(let j = 0; j < mockBoard.myBoard[i].length; j++){
+            expect(mockBoard.myBoard[i][j]).toMatchObject(mockObj);
+        }
+    }
+})
 
 // test('Check if placing ship updates myBoard - horizontal', () => {
 //     const mockShip = myShip('mock', 3);
@@ -63,10 +63,10 @@ const mockBoard = gameBoard();
 //     expect(mockBoard.placeShip(mockShip, 4, 8, 'vertical')).toBe(true);
 // })
 
-test(`Check if receive attack records hit for ship and updates board`, () => {
-    const mockShip = myShip('mock', 3);
-    expect(mockBoard.placeShip(mockShip, 5, 5)).toBe(true);
-    expect(mockBoard.receiveAttack(6,6)).toBe(false);
-    // expect(mockBoard.myBoard).toBe(3);
-    // expect(mockShip).toBe(false);
-})
+// test(`Check if receive attack records hit for ship and updates board`, () => {
+//     const mockShip = myShip('mock', 3);
+//     expect(mockBoard.placeShip(mockShip, 5, 5)).toBe(true);
+//     expect(mockBoard.receiveAttack(6,6)).toBe(false);
+//     // expect(mockBoard.myBoard).toBe(3);
+//     // expect(mockShip).toBe(false);
+// })

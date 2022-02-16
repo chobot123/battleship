@@ -33,6 +33,6 @@ const Ship = (name, length) => {
     }
 }
 
-module.exports = Ship;
+// module.exports = Ship;
 
 export { Ship }

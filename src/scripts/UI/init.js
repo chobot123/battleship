@@ -1,4 +1,4 @@
-import { shipWrapper } from "./ships";
+import { shipsContainer } from "./displayShips";
 
 const { makeTitle } = require("./header");
 const { makeBoard } = require("./boards")
@@ -13,7 +13,7 @@ const init = () => {
 
     content.appendChild(makeTitle());
     content.appendChild(makeBoard());
-    content.appendChild(shipWrapper);
+    content.appendChild(shipsContainer);
     
 }
 
