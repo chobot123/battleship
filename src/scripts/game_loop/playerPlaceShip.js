@@ -5,51 +5,38 @@
  * based off (above) adjust ship placement in gameBoard
  */
 
-import { shipsContainer } from "../UI/displayShips";
+import { makeHorizontal, makeVertical, shipsContainer } from "../UI/displayShips";
 
 /*
     placeShip(carrier, 5, 7, vertical ) === true
 
 */
 const renderShips = (gameBoard) => {
-    console.log(gameBoard);
+    const myBoard = document.querySelector(".board.one");
     let index = "";
     let currentShip = "";
     let location = {
         target : "",
         x : "",
-        y : ""
+        y : "",
     }
 
-    const renderShip = (myShip, coord, align = 'vertical') => {
+    const renderShip = (myShip, x, y, align = 'vertical') => {
 
-        coord = parseInt(coord);
-        const myBoard = document.querySelector(".board.one");
-        console.log(myBoard);
-        console.log(myShip);
+        let coord = parseInt(x.toString() + y.toString());
         let count = 0;
         while(count < myShip.children.length) {
             if(align === 'vertical'){
-                myBoard.children[coord].classList.add(myShip.className);
+                myBoard.children[coord].classList.add(myShip.classList[0]);
                 coord += 10;
             }
             else if(align === 'horizontal'){
-                myBoard.children[coord].classList.add(myShip.className);
+                myBoard.children[coord].classList.add(myShip.classList[0]);
                 coord += 1;
             }
             count++;
         }
 
-    }
-
-    const getShipIndex = (ship) => {
-        for(let i = 0; i < ship.children.length; i++) {
-            let cell = ship.children[i];
-            cell.addEventListener("mousedown", (e)=> {
-                index = e.target.innerHTML;
-                return index;
-            })
-        }
     }
 
     //get index of ship on clicking a part of ship
@@ -71,24 +58,54 @@ const renderShips = (gameBoard) => {
 
     }
 
-    //when ship is selected
-    document.addEventListener("dragstart", (e) => {
-        currentShip = e.target;
-        getShipIndex(currentShip); //get index the player selected
+    //double click a ship to turn it horizontal or vertical
+    shipsContainer.addEventListener("dblclick", (e) => {
+        if(e.target.className === 'cell'){
+            (e.target.parentElement.classList[1] === 'vertical') ?
+                makeHorizontal(e.target.parentElement) :
+                makeVertical(e.target.parentElement);
+        }
     })
 
-    //when cursor enters a grid block
+    //when ship is selected get the ships info
+    document.addEventListener("dragstart", (e) => {
+        currentShip = e.target;
+    })
+
+    //when cursor enters a grid block 
     document.addEventListener("dragenter", (e) => {
         if(e.target.className === 'cell'){
+            location.target = e.target.innerHTML;
             e.target.style.backgroundColor = "aqua";
-            location.target = e.target;
-            location.x = e.target.innerHTML.at(0);
-            location.y = e.target.innerHTML.at(1);
+            if(currentShip.classList[1] === 'vertical'){
+
+                (e.target.innerHTML.at(0) > 0) ? location.x = parseInt(e.target.innerHTML.at(0)) - parseInt(index) 
+                : location.x = parseInt(e.target.innerHTML.at(0));
+
+                location.y = parseInt(e.target.innerHTML.at(1));
+
+            
+            }
+            else if(currentShip.classList[1] === 'horizontal'){
+
+                (e.target.innerHTML.at(0) > 0) ? location.y = parseInt(e.target.innerHTML.at(1)) - parseInt(index) 
+                : location.y = parseInt(e.target.innerHTML.at(1));
+
+                location.x = parseInt(e.target.innerHTML.at(0));
+
+
+            }
+
+            if(location.x === '0'){
+                location.y = location.target.at(1);
+            }
         }
         else {
+
             location.target = "";
             location.x = "";
             location.y = "";
+            
         }
     }, false)
 
@@ -105,13 +122,15 @@ const renderShips = (gameBoard) => {
         //if valid, ship disappears from display onto board
         //else we start all over
         if(location.target !== ""){
-            let shipIndex = gameBoard.ships.findIndex(e => e.name === currentShip.className);
+            
+            let shipIndex = gameBoard.ships.findIndex(e => e.name === currentShip.classList[0]);
             if(gameBoard.placeShip(gameBoard.ships[shipIndex], location.x,
-                                    location.y, 'vertical')){
-                renderShip(currentShip, location.target.innerHTML, 'vertical');
+                                    location.y, currentShip.classList[1])){
+
+                renderShip(currentShip, location.x, location.y, currentShip.classList[1]);
                 currentShip.style.display = `none`;
             }
-            location.target.style.backgroundColor = "";
+            myBoard.children[location.target].style.backgroundColor = "";
         }
         reset();
     }, false)

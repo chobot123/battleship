@@ -14,8 +14,9 @@ const displayShip = (name, length) => {
         ship.style.display = `grid`;
         ship.style.minWidth = `40px`;
         ship.style.minHeight = `${40 * length}px`;
-        ship.style.gridTemplate = `repeat(${length}, minmax(0, 40px))`;
+        ship.style.gridTemplateRows = `repeat(${length}, minmax(0, 40px))`;
         ship.setAttribute("draggable", "true");
+        ship.classList.add('vertical');
 
 
 
@@ -28,13 +29,31 @@ const displayShip = (name, length) => {
         return shipWrapper;
 }
 
+const makeVertical = (ship) => {
+    ship.classList.remove('horizontal');
+    ship.classList.add('vertical');
+    ship.style.gridTemplateRows = `repeat(${ship.children.length}, minmax(0,40px))`
+    ship.style.minHeight = `${40 * length}px`;
+    ship.style.minWidth = `40px`;
+    ship.style.gridTemplateColumns = "";
+}
+
+const makeHorizontal = (ship) => {
+    ship.classList.remove('vertical');
+    ship.classList.add('horizontal');
+    ship.style.gridTemplateColumns = `repeat(${ship.children.length}, minmax(0,40px))`
+    ship.style.minHeight = `40px`;
+    ship.style.minWidth = `${40 * ship.children.length}px`;
+    ship.style.gridTemplateRows = "";
+}
+
 shipsContainer.appendChild(displayShip('carrier', 5));
 shipsContainer.appendChild(displayShip('battleship', 4));
 shipsContainer.appendChild(displayShip('cruiser', 3));
 shipsContainer.appendChild(displayShip('submarine', 3));
 shipsContainer.appendChild(displayShip('destroyer', 2));
 
-export { shipsContainer }
+export { shipsContainer, makeHorizontal, makeVertical}
 
 
 
