@@ -10,6 +10,7 @@ import Gameboard from "../factory/gameBoard";
 import { Player } from "../factory/player";
 import { renderShips } from "./playerPlaceShip";
 import { Ship } from "../factory/ship"
+import { smartMove } from "./computer";
 
 const gameLoop = () => {
 
@@ -60,8 +61,43 @@ const gameLoop = () => {
         }
     }
     
-    
+    //turn loop
+    playerOne.myTurn = true;
+    let compBoard = document.querySelector(".board.two");
+    let pOneDisplay = document.querySelector(".board.one")
 
+    while(pOneBoard.isAllSunk() === false &&
+            computerBoard.isAllSunk() === false){
+        
+        if(playerOne.myTurn === true){
+            let x, y;
+            //get player choice coordinates
+            //convert to x and y for attack
+            //if false => miss, if true => hit
+            compBoard.addEventListener("click", (e) => {
+                x = parseInt(e.target.innerHTML.at(0));
+                y = parseInt(e.target.innerHTML.at(1));
+                if(playerOne.attack(computerBoard, x, y)){
+                    e.target.style.backgroundColor = "red";
+                }
+                else {
+                    e.target.style.backgroundColor = "lightblue";   
+                }
+                computer.myTurn = true;
+                smartMove(computer, pOneBoard);
+            }, true)
+        }
+        else if(computer.myTurn === true){
+                let isHit = smartMove(computer, pOneBoard);
+                if(isHit !== false){
+                    pOneDisplay.children[isHit.x.toString() + isHit.y.toString()].style.backgroundColor = "red";                  
+                }
+                else {
+                    pOneDisplay.children[isHit.x.toString() + isHit.y.toString()].style.backgroundColor = "lightblue";                  
+                }
+            playerOne.myTurn = true;   
+        }
+    }
 }
 
 export {gameLoop}
