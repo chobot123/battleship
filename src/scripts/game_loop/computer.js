@@ -15,15 +15,20 @@ const smartMove = (player, board) => {
     //if there is no valid hit, do random hit
     let choice = {
         
-        x : Math.floor(Math.random() * 100),
-        y : Math.floor(Math.random() * 100)
+        x : Math.floor(Math.random() * 10),
+        y : Math.floor(Math.random() * 10),
+        hit : false
     }
 
+    console.log(moveList.length);
+
     if(moveList.length < 1) {
-        if(player.attack(board, x, y)){
+        if(player.attack(board, choice.x, choice.y)){
             moveList.push(choice);
+            choice.hit = true;
             return choice;
         }
+        else {return choice;}
     }
     else{ //theres a valid hit
         //check direction until another hit
@@ -35,54 +40,53 @@ const smartMove = (player, board) => {
 }
 
 const checkAround = (player, board, x, y) => {
+    console.log(x);
     let up = x - 1;
     let down = x + 1;
     let left = y - 1;
     let right = y + 1;
+    let choice = {
+        x : x, 
+        y : y,
+        hit: false
+    }
     
     if(board[up][y].status === 0){
         if(player.attack(board, up, y) === true){
-            let choice = {
-                x : up,
-                y : y
-            }
+            choice.x = up;
+            choice.hit = true;
             moveList.push(choice);
+
             return choice;
         }
     }
     else if(board[down][y].status === 0){
         if(player.attack(board, down, y) === true){
-            let choice = {
-                x : down,
-                y : y
-            }
+            choice.x = down;
+            choice.hit = true;
             moveList.push(choice);
             return choice;
         }
     }
     else if(board[x][left].status === 0){
         if(player.attack(board, x, left) === true){
-            let choice = {
-                x : x,
-                y : left
-            }
+            choice.y = left;
+            choice.hit = true;
             moveList.push(choice);
             return choice;
         }
     }
     else if(board[down][right].status === 0){
         if(player.attack(board, x, down) === true){
-            let choice = {
-                x : x,
-                y : down
-            }
+            choice.y = down;
+            choice.hit = true;
             moveList.push(choice);
             return choice;
         }
     }
     else {
         moveList.pop();
-        return false;
+        return choice;
     }
 }
 

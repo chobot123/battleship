@@ -20,16 +20,20 @@ const Gameboard = () => {
         return tempArray;
     }
     const myBoard = createBoard();
-
-    const noOverlap = (myShip, x, y) => {
-        for(let i = y; i < y + myShip.length && i <= 9; i++){
-            if(myBoard[x][i].ship !== "none"){
-                return false;
+    
+    const noOverlap = (myShip, x, y, align = 'vertical') => {
+        if(align === 'horizontal'){
+            for(let i = y; i < y + myShip.length && i <= 9; i++){
+                if(myBoard[x][i].ship !== "none"){
+                    return false;
+                }
             }
         }
-        for(let i = x; i < x + myShip.length && i <= 9; i++){
-            if(myBoard[i][y].ship !== "none"){
-                return false;
+        else if(align === 'vertical'){
+            for(let i = x; i < x + myShip.length && i <= 9; i++){
+                if(myBoard[i][y].ship !== "none"){
+                    return false;
+                }
             }
         }
         return true;
@@ -52,7 +56,7 @@ const Gameboard = () => {
             }
             else if(align === 'vertical') {
                 if(x + myShip.length > 10){
-
+                    console.log(`test2`)
                     return false;
                 }
                 for(let i = x; i < x + myShip.length; i++){
@@ -63,6 +67,7 @@ const Gameboard = () => {
             }
             return true;
         }
+
         return false;
     }
 
@@ -84,7 +89,6 @@ const Gameboard = () => {
     const isAllSunk = () => {
         
         return (ships.every(e => e.isSunk === true)) ? true : false;
-        
         
     }
 

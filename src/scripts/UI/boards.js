@@ -30,6 +30,8 @@ const makeBoard = () => {
             let cell = document.createElement("div");
             cell.className = 'cell';
             cell.innerHTML = `${j}${i % 10}`;
+            cell.style.color = "rgba(0,0,0,0)";
+            cell.style.userSelect = "none";
             thisBoard.appendChild(cell);
         }
     }

@@ -47,7 +47,7 @@ body {
 
 .carrier,
 .carrier-container {
-    background-color: aqua;
+    background-color: darkblue;
 }
 
 .battleship,
@@ -66,4 +66,12 @@ body {
 .destroyer,
 .destroyer-container {
     background-color: yellow;
+}
+
+.hit {
+    background-color: red;
+}
+
+.miss {
+    background-color: aqua;
 }

@@ -22,8 +22,11 @@ const renderShips = (gameBoard) => {
     }
 
     const renderShip = (myShip, x, y, align = 'vertical') => {
-
+        if(x === 0){
+            x = "";
+        }
         let coord = parseInt(x.toString() + y.toString());
+
         let count = 0;
         while(count < myShip.children.length) {
             if(align === 'vertical'){
@@ -74,30 +77,30 @@ const renderShips = (gameBoard) => {
 
     //when cursor enters a grid block 
     document.addEventListener("dragenter", (e) => {
+
         if(e.target.className === 'cell'){
             location.target = e.target.innerHTML;
+            location.x = location.target.at(0);
+            location.y = location.target.at(1);
+            if(location.x === '0'){
+                location.target = location.target.at(1);
+            }      
             e.target.style.backgroundColor = "aqua";
             if(currentShip.classList[1] === 'vertical'){
 
-                (e.target.innerHTML.at(0) > 0) ? location.x = parseInt(e.target.innerHTML.at(0)) - parseInt(index) 
-                : location.x = parseInt(e.target.innerHTML.at(0));
+                (e.target.innerHTML.at(0) > 0) ? location.x = parseInt(location.x) - parseInt(index) 
+                : location.x = parseInt(location.x);
 
-                location.y = parseInt(e.target.innerHTML.at(1));
+                location.y = parseInt(location.y);
 
             
             }
             else if(currentShip.classList[1] === 'horizontal'){
 
-                (e.target.innerHTML.at(0) > 0) ? location.y = parseInt(e.target.innerHTML.at(1)) - parseInt(index) 
+                (e.target.innerHTML.at(0) > 0) ? location.y = parseInt(location.y) - parseInt(index) 
                 : location.y = parseInt(e.target.innerHTML.at(1));
 
-                location.x = parseInt(e.target.innerHTML.at(0));
-
-
-            }
-
-            if(location.x === '0'){
-                location.y = location.target.at(1);
+                location.x = parseInt(location.x);
             }
         }
         else {
@@ -122,11 +125,12 @@ const renderShips = (gameBoard) => {
         //if valid, ship disappears from display onto board
         //else we start all over
         if(location.target !== ""){
-            
+
             let shipIndex = gameBoard.ships.findIndex(e => e.name === currentShip.classList[0]);
+
             if(gameBoard.placeShip(gameBoard.ships[shipIndex], location.x,
                                     location.y, currentShip.classList[1])){
-
+            
                 renderShip(currentShip, location.x, location.y, currentShip.classList[1]);
                 currentShip.style.display = `none`;
             }
