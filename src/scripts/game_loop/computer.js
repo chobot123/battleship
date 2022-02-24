@@ -1,4 +1,6 @@
 const moveList = [];
+let direction = ["up", "down", "left", "right"];
+let count = 0;
 
 const smartMove = (player, enemyBoard) => {
     
@@ -49,19 +51,25 @@ const checkAround = (player, enemyBoard, x, y) => {
     let right = y + 1;
     console.log(x);
     console.log(y);
-    
-    if(x > 0 && enemyBoard.myBoard[up][y].status === 0){
+
+    //go up
+    if(direction[count] === "up" && x > 0 && enemyBoard.myBoard[up][y].status === 0 ){
         choice.x = up;
+        //if it hits
         if(player.attack(enemyBoard, up, y) === true){
-            moveList.push(choice);
+            moveList.push(choice); //add to list 
             renderAttack(choice);
         }
         else {
+            while(moveList.length > 1){
+                moveList.pop();
+            }
             renderAttack(choice, false);
+            count++;
         }
         return;
     }
-    else if(x < 9 && enemyBoard.myBoard[down][y].status === 0){
+    else if(direction[count] === "down" && x < 9 && enemyBoard.myBoard[down][y].status === 0 ){
         choice.x = down;
         if(player.attack(enemyBoard, down, y) === true){
             moveList.push(choice);
@@ -69,11 +77,15 @@ const checkAround = (player, enemyBoard, x, y) => {
             return;
         }
         else {
+            while(moveList.length > 1){
+                moveList.pop();
+            }
             renderAttack(choice, false);
+            count++;
         }
         return;
     }
-    else if(y > 0 && enemyBoard.myBoard[x][left].status === 0){
+    else if(direction[count] === "left" && y > 0 && enemyBoard.myBoard[x][left].status === 0){
         choice.y = left;
         if(player.attack(enemyBoard, x, left) === true){
             moveList.push(choice);
@@ -81,11 +93,15 @@ const checkAround = (player, enemyBoard, x, y) => {
             return;
         }
         else {
+            while(moveList.length > 1){
+                moveList.pop();
+            }
             renderAttack(choice, false);
+            count++;
         }
         return;
     }
-    else if(y < 9 && enemyBoard.myBoard[x][right].status === 0){
+    else if(direction[count] === "right" && y < 9 && enemyBoard.myBoard[x][right].status === 0 ){
         choice.y = right;
         if(player.attack(enemyBoard, x, right) === true){
             moveList.push(choice);
@@ -93,12 +109,27 @@ const checkAround = (player, enemyBoard, x, y) => {
             return;
         }
         else {
+            while(moveList.length > 1){
+                moveList.pop();
+            }
             renderAttack(choice, false);
+            count++;
         }
         return;
     }
     else {
-        moveList.pop();
+        if(count === 4){
+            while(moveList.length !== 0){
+                moveList.pop();
+            }
+            count = 0;
+        }
+        else{
+            while(moveList.length > 1){
+                moveList.pop();
+            }
+            count++;
+        }
         smartMove(player, enemyBoard);
     }
 }
@@ -114,7 +145,7 @@ const renderAttack = (choice, isHit = true) => {
     }
 
     let coord = parseInt(x.toString() + y.toString());
-
+    
     (isHit) ?
         enemyBoardDisplay.children[coord].classList.add("hit"):
         enemyBoardDisplay.children[coord].classList.add("miss");

@@ -78,13 +78,13 @@ const gameLoop = () => {
         smartMove(computer, pOneBoard);
     })
     
-        //check if game over
-        // if(pOneBoard.isAllSunk() && computerBoard.isAllSunk()){
-        //     compDisplay.removeEventListener("click");
-        //     //end game
-        //     //display winner
-        //     //reset 
-        // }
+        // check if game over
+        if(pOneBoard.isAllSunk() || computerBoard.isAllSunk()){
+            console.log(`game end`)
+            //end game
+            //display winner
+            //reset 
+        }
 }
 
 export {gameLoop}
