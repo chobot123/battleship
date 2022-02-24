@@ -8,7 +8,7 @@
 
 import Gameboard from "../factory/gameBoard";
 import { Player } from "../factory/player";
-import { renderShips } from "./playerPlaceShip";
+import { renderShips } from "./renderAndPlace";
 import { Ship } from "../factory/ship"
 import { smartMove } from "./computer";
 
@@ -64,7 +64,6 @@ const gameLoop = () => {
     //turn loop
     // playerOne.myTurn = true;
     let compDisplay = document.querySelector(".board.two");
-    let pOneDisplay = document.querySelector(".board.one")
 
     compDisplay.addEventListener("click", (e)=> {
         let x = parseInt(e.target.innerHTML.at(0));
@@ -74,20 +73,18 @@ const gameLoop = () => {
         (playerOne.attack(computerBoard, x, y)) ? 
             e.target.classList.add("hit") :
             e.target.classList.add("miss");
-        let displayCoord = smartMove(computer, pOneBoard);
-        if(displayCoord.x === 0){
-            displayCoord.x = "";
-        }
         
-        //comp hit
-        (displayCoord.hit) ? 
-        pOneDisplay.children[displayCoord.x.toString() 
-                    + displayCoord.y.toString()].classList.add("hit"):
-        pOneDisplay.children[displayCoord.x.toString() 
-                    + displayCoord.y.toString()].classList.add("miss");
+        //comp attacks
+        smartMove(computer, pOneBoard);
     })
     
         //check if game over
+        // if(pOneBoard.isAllSunk() && computerBoard.isAllSunk()){
+        //     compDisplay.removeEventListener("click");
+        //     //end game
+        //     //display winner
+        //     //reset 
+        // }
 }
 
 export {gameLoop}

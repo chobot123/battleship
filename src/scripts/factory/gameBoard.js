@@ -1,5 +1,3 @@
-
-
 const Gameboard = () => {
 
     const ships = [];
@@ -56,7 +54,7 @@ const Gameboard = () => {
             }
             else if(align === 'vertical') {
                 if(x + myShip.length > 10){
-                    console.log(`test2`)
+
                     return false;
                 }
                 for(let i = x; i < x + myShip.length; i++){
@@ -85,6 +83,7 @@ const Gameboard = () => {
             return false;
         }
     }
+
 
     const isAllSunk = () => {
         

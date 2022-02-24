@@ -42,14 +42,6 @@ const renderShips = (gameBoard) => {
 
     }
 
-    //get index of ship on clicking a part of ship
-    shipsContainer.addEventListener("mousedown" , (e) => {
-        if(e.target.className === "cell"){
-            index = e.target.innerHTML;
-            return index;
-        }
-    })
-
     //reset all parameters
     const reset = () => {
 
@@ -61,6 +53,14 @@ const renderShips = (gameBoard) => {
 
     }
 
+    //get index of ship on clicking a part of ship
+    shipsContainer.addEventListener("mousedown" , (e) => {
+        if(e.target.className === "cell"){
+            index = e.target.innerHTML;
+            return index;
+        }
+    })
+
     //double click a ship to turn it horizontal or vertical
     shipsContainer.addEventListener("dblclick", (e) => {
         if(e.target.className === 'cell'){
@@ -71,8 +71,9 @@ const renderShips = (gameBoard) => {
     })
 
     //when ship is selected get the ships info
-    document.addEventListener("dragstart", (e) => {
+    shipsContainer.addEventListener("dragstart", (e) => {
         currentShip = e.target;
+
     })
 
     //when cursor enters a grid block 

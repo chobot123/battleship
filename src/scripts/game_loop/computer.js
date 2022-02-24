@@ -1,93 +1,123 @@
-
-
 const moveList = [];
 
-const smartMove = (player, board) => {
-    player.myTurn = false;
-    /**
-     * If its a hit, push to the array
-     * check in all 4 cardinal directions
-     * if theres another hit push to array
-     * do it from array
-     * if there is no hits then pop from array
-     * repeat
-     */
-    //if there is no valid hit, do random hit
+const smartMove = (player, enemyBoard) => {
+    
+    // player.myTurn = false;
+
     let choice = {
         
         x : Math.floor(Math.random() * 10),
         y : Math.floor(Math.random() * 10),
-        hit : false
+        
+    }
+    
+    if(enemyBoard.myBoard[choice.x][choice.y].status !== 0){
+        return smartMove(player, enemyBoard);
     }
 
-    console.log(moveList.length);
-
     if(moveList.length < 1) {
-        if(player.attack(board, choice.x, choice.y)){
+        if(player.attack(enemyBoard, choice.x, choice.y)){
             moveList.push(choice);
-            choice.hit = true;
-            return choice;
+            renderAttack(choice);
+            return;
         }
-        else {return choice;}
+        else {
+            renderAttack(choice, false);
+            return;
+        }
     }
     else{ //theres a valid hit
         //check direction until another hit
         //if there is push
         //if there isnt pop
-        return checkAround(player, board, moveList[moveList.length - 1].x,
-                    moveList[moveList.length - 1].y);
+        checkAround(player, enemyBoard, moveList[moveList.length - 1].x,
+            moveList[moveList.length - 1].y);
+        console.log(moveList);
+        return;    
     }
 }
 
-const checkAround = (player, board, x, y) => {
-    console.log(x);
+const checkAround = (player, enemyBoard, x, y) => {
+    
+    let choice = {
+        x : x, 
+        y : y,
+    }
     let up = x - 1;
     let down = x + 1;
     let left = y - 1;
     let right = y + 1;
-    let choice = {
-        x : x, 
-        y : y,
-        hit: false
-    }
+    console.log(x);
+    console.log(y);
     
-    if(board[up][y].status === 0){
-        if(player.attack(board, up, y) === true){
-            choice.x = up;
-            choice.hit = true;
+    if(x > 0 && enemyBoard.myBoard[up][y].status === 0){
+        choice.x = up;
+        if(player.attack(enemyBoard, up, y) === true){
             moveList.push(choice);
-
-            return choice;
+            renderAttack(choice);
         }
+        else {
+            renderAttack(choice, false);
+        }
+        return;
     }
-    else if(board[down][y].status === 0){
-        if(player.attack(board, down, y) === true){
-            choice.x = down;
-            choice.hit = true;
+    else if(x < 9 && enemyBoard.myBoard[down][y].status === 0){
+        choice.x = down;
+        if(player.attack(enemyBoard, down, y) === true){
             moveList.push(choice);
-            return choice;
+            renderAttack(choice);
+            return;
         }
+        else {
+            renderAttack(choice, false);
+        }
+        return;
     }
-    else if(board[x][left].status === 0){
-        if(player.attack(board, x, left) === true){
-            choice.y = left;
-            choice.hit = true;
+    else if(y > 0 && enemyBoard.myBoard[x][left].status === 0){
+        choice.y = left;
+        if(player.attack(enemyBoard, x, left) === true){
             moveList.push(choice);
-            return choice;
+            renderAttack(choice);
+            return;
         }
+        else {
+            renderAttack(choice, false);
+        }
+        return;
     }
-    else if(board[down][right].status === 0){
-        if(player.attack(board, x, down) === true){
-            choice.y = down;
-            choice.hit = true;
+    else if(y < 9 && enemyBoard.myBoard[x][right].status === 0){
+        choice.y = right;
+        if(player.attack(enemyBoard, x, right) === true){
             moveList.push(choice);
-            return choice;
+            renderAttack(choice);
+            return;
         }
+        else {
+            renderAttack(choice, false);
+        }
+        return;
     }
     else {
         moveList.pop();
-        return choice;
+        smartMove(player, enemyBoard);
     }
+}
+
+const renderAttack = (choice, isHit = true) => {
+
+    const enemyBoardDisplay = document.querySelector('.board.one');
+    let x = choice.x;
+    let y = choice.y;
+
+    if(choice.x === 0){
+        x = "";
+    }
+
+    let coord = parseInt(x.toString() + y.toString());
+
+    (isHit) ?
+        enemyBoardDisplay.children[coord].classList.add("hit"):
+        enemyBoardDisplay.children[coord].classList.add("miss");
 }
 
 export { smartMove }
