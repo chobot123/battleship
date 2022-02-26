@@ -8,9 +8,10 @@
 
 import Gameboard from "../factory/gameBoard";
 import { Player } from "../factory/player";
-import { renderShips } from "./renderAndPlace";
+import { renderShips } from "./placeShips";
 import { Ship } from "../factory/ship"
-import { smartMove } from "./computer";
+import { compPlaceShips, smartMove } from "./computer";
+import { announceWinner } from "./gameEnd"
 
 const gameLoop = () => {
 
@@ -48,43 +49,45 @@ const gameLoop = () => {
     renderShips(pOneBoard); 
 
     //computer to place ships
-    let placeCount = 0;
-    while(placeCount < 5){
-        let alignment = Math.floor(Math.random() * 2);
-        (alignment === 0) ? alignment = 'vertical' : alignment = 'horizontal';
-        if(computerBoard.placeShip(computerBoard.ships[placeCount],
-                                    Math.floor(Math.random() * 10),
-                                    Math.floor(Math.random() * 10),
-                                    alignment))
-        {
-            placeCount++;
-        }
-    }
+    compPlaceShips(computerBoard);
     
     //turn loop
     // playerOne.myTurn = true;
     let compDisplay = document.querySelector(".board.two");
-
     compDisplay.addEventListener("click", (e)=> {
         let x = parseInt(e.target.innerHTML.at(0));
         let y = parseInt(e.target.innerHTML.at(1));
-
-        //player hit
-        (playerOne.attack(computerBoard, x, y)) ? 
+    
+        //check if cell has not been clicked yet
+        if(e.target.classList[1] === "miss" ||
+            e.target.classList[1] === "hit"){
+                return;
+        }
+        else {
+            //if 'fresh' cell then attack
+            (playerOne.attack(computerBoard, x, y)) ? 
             e.target.classList.add("hit") :
             e.target.classList.add("miss");
-        
+        }
+
+            
         //comp attacks
         smartMove(computer, pOneBoard);
-    })
+
+        pOneBoard.
+            
     
         // check if game over
         if(pOneBoard.isAllSunk() || computerBoard.isAllSunk()){
-            console.log(`game end`)
+            console.log(`game end`);
+                (pOneBoard.isAllSunk()) ? announceWinner("computer")
+                                    : announceWinner("player");
             //end game
             //display winner
             //reset 
         }
+    
+    })
 }
 
 export {gameLoop}

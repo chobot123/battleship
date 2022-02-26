@@ -14,6 +14,7 @@ const makeBoard = () => {
     const pTwoBoard = document.createElement("div");
     pOneBoard.className = `board one`;
     pTwoBoard.className = `board two`;
+    pTwoBoard.style.display = `none`;
 
     // const boardWrapper = document.createElement("div");
     // const boardWrapperTwo = document.createElement("div");

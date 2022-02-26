@@ -34,7 +34,7 @@ const smartMove = (player, enemyBoard) => {
         //if there isnt pop
         checkAround(player, enemyBoard, moveList[moveList.length - 1].x,
             moveList[moveList.length - 1].y);
-        console.log(moveList);
+
         return;    
     }
 }
@@ -49,14 +49,13 @@ const checkAround = (player, enemyBoard, x, y) => {
     let down = x + 1;
     let left = y - 1;
     let right = y + 1;
-    console.log(x);
-    console.log(y);
+
 
     //go up
     if(direction[count] === "up" && x > 0 && enemyBoard.myBoard[up][y].status === 0 ){
         choice.x = up;
         //if it hits
-        if(player.attack(enemyBoard, up, y) === true){
+        if(player.attack(enemyBoard, up, y)){
             moveList.push(choice); //add to list 
             renderAttack(choice);
         }
@@ -71,7 +70,7 @@ const checkAround = (player, enemyBoard, x, y) => {
     }
     else if(direction[count] === "down" && x < 9 && enemyBoard.myBoard[down][y].status === 0 ){
         choice.x = down;
-        if(player.attack(enemyBoard, down, y) === true){
+        if(player.attack(enemyBoard, down, y)){
             moveList.push(choice);
             renderAttack(choice);
             return;
@@ -87,7 +86,7 @@ const checkAround = (player, enemyBoard, x, y) => {
     }
     else if(direction[count] === "left" && y > 0 && enemyBoard.myBoard[x][left].status === 0){
         choice.y = left;
-        if(player.attack(enemyBoard, x, left) === true){
+        if(player.attack(enemyBoard, x, left)){
             moveList.push(choice);
             renderAttack(choice);
             return;
@@ -103,7 +102,7 @@ const checkAround = (player, enemyBoard, x, y) => {
     }
     else if(direction[count] === "right" && y < 9 && enemyBoard.myBoard[x][right].status === 0 ){
         choice.y = right;
-        if(player.attack(enemyBoard, x, right) === true){
+        if(player.attack(enemyBoard, x, right)){
             moveList.push(choice);
             renderAttack(choice);
             return;
@@ -151,4 +150,22 @@ const renderAttack = (choice, isHit = true) => {
         enemyBoardDisplay.children[coord].classList.add("miss");
 }
 
-export { smartMove }
+const compPlaceShips = (computerBoard) => {
+
+    let placeCount = 0;
+    while(placeCount < 5){
+        let alignment = Math.floor(Math.random() * 2);
+        (alignment === 0) ? alignment = 'vertical' : alignment = 'horizontal';
+        if(computerBoard.placeShip(computerBoard.ships[placeCount],
+                                    Math.floor(Math.random() * 10),
+                                    Math.floor(Math.random() * 10),
+                                    alignment))
+        {
+            placeCount++;
+        }
+    }
+}
+
+
+
+export { smartMove, compPlaceShips }

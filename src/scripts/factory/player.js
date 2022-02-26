@@ -3,7 +3,7 @@ const Player = () => {
     let myTurn = false;
 
     const attack = (board, x, y) => {
-        myTurn = false; //end turn
+        // myTurn = false; //end turn
         return board.receiveAttack(x, y);
     }
 

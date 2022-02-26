@@ -11,6 +11,7 @@ import { makeHorizontal, makeVertical, shipsContainer } from "../UI/displayShips
     placeShip(carrier, 5, 7, vertical ) === true
 
 */
+let shipCount = 0;
 const renderShips = (gameBoard) => {
     const myBoard = document.querySelector(".board.one");
     let index = "";
@@ -137,9 +138,16 @@ const renderShips = (gameBoard) => {
             }
             myBoard.children[location.target].style.backgroundColor = "";
         }
+        shipCount++;
+
+        //if all ships are placed, reveal enemy board
+        if(shipCount === 5){
+            let compDisplay = document.querySelector(".board.two");
+            compDisplay.style.display = ``;
+        }
         reset();
     }, false)
 
 }
 
-export {renderShips}
+export {shipCount, renderShips}

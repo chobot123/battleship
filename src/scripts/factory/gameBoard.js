@@ -71,10 +71,13 @@ const Gameboard = () => {
 
     
     const receiveAttack = (x, y) => {
-        if(myBoard[x][y].ship !== 'none'){
-            ships.find(e => e.name = myBoard[x][y].ship)
-                .hit(myBoard[x][y].shipPart);
 
+        if(myBoard[x][y].ship !== 'none'){
+            for(let i = 0; i < ships.length; i++){
+                if(ships[i].name === myBoard[x][y].ship){
+                    ships[i].hit(myBoard[x][y].shipPart);
+                }
+            }
             myBoard[x][y].status = 2;
             return true;
         }
@@ -87,7 +90,7 @@ const Gameboard = () => {
 
     const isAllSunk = () => {
         
-        return (ships.every(e => e.isSunk === true)) ? true : false;
+        return (ships.every(e => e.isSunk() === true));
         
     }
 
