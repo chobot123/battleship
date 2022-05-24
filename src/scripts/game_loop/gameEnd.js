@@ -1,3 +1,6 @@
+import { shipsContainer } from '../UI/displayShips';
+import { init } from '../UI/init'
+import { gameLoop } from './gameLoop';
 
 
 const announceWinner = (player) => {
@@ -26,4 +29,20 @@ const announceWinner = (player) => {
 
 }
 
-export { announceWinner}
+const resetGame = () => {
+    const reset = document.querySelector(".restart");
+
+    reset.addEventListener("click", () => {
+        while(document.body.lastChild){
+            document.body.removeChild(document.body.lastChild);
+        }
+        init();
+
+        // for(let i = 0; i < shipsContainer.children.length; i++){
+        //     shipsContainer.children[i].firstChild.style.display = `grid`;
+        // }
+        gameLoop();
+    })
+}
+
+export { announceWinner, resetGame }

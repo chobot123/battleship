@@ -1,6 +1,3 @@
-const shipsContainer = document.createElement("div");
-shipsContainer.className = `ships-container`;
-
 const displayShip = (name, length) => {
 
         const shipWrapper = document.createElement("div");
@@ -23,13 +20,18 @@ const displayShip = (name, length) => {
         for(let i = 0; i < length; i++) {
             let cell = document.createElement("div");
             cell.className = "cell";
+            cell.classList.add("ship");
             cell.innerHTML = i;
+            cell.setAttribute("clickable", "false");
+            cell.style.color = "transparent";
+            cell.setAttribute("draggable", "false");
             ship.appendChild(cell);
         }
         return shipWrapper;
 }
 
 const makeVertical = (ship) => {
+
     ship.classList.remove('horizontal');
     ship.classList.add('vertical');
     ship.style.gridTemplateRows = `repeat(${ship.children.length}, minmax(0,40px))`
@@ -39,6 +41,7 @@ const makeVertical = (ship) => {
 }
 
 const makeHorizontal = (ship) => {
+
     ship.classList.remove('vertical');
     ship.classList.add('horizontal');
     ship.style.gridTemplateColumns = `repeat(${ship.children.length}, minmax(0,40px))`
@@ -47,13 +50,21 @@ const makeHorizontal = (ship) => {
     ship.style.gridTemplateRows = "";
 }
 
-shipsContainer.appendChild(displayShip('carrier', 5));
-shipsContainer.appendChild(displayShip('battleship', 4));
-shipsContainer.appendChild(displayShip('cruiser', 3));
-shipsContainer.appendChild(displayShip('submarine', 3));
-shipsContainer.appendChild(displayShip('destroyer', 2));
+const getShips = () => {
 
-export { shipsContainer, makeHorizontal, makeVertical}
+    const shipsContainer = document.createElement("div");
+    shipsContainer.className = `ships-container`;
+
+    shipsContainer.appendChild(displayShip('carrier', 5));
+    shipsContainer.appendChild(displayShip('battleship', 4));
+    shipsContainer.appendChild(displayShip('cruiser', 3));
+    shipsContainer.appendChild(displayShip('submarine', 3));
+    shipsContainer.appendChild(displayShip('destroyer', 2));
+
+    return shipsContainer;
+}
+
+export { getShips, makeHorizontal, makeVertical}
 
 
 

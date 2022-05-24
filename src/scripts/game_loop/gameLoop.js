@@ -11,53 +11,29 @@ import { Player } from "../factory/player";
 import { renderShips } from "./placeShips";
 import { Ship } from "../factory/ship"
 import { compPlaceShips, smartMove } from "./computer";
-import { announceWinner } from "./gameEnd"
+import { announceWinner, resetGame } from "./gameEnd"
+import createBoard from "./createBoard";
 
 const gameLoop = () => {
-
-    const carrier = Ship('carrier', 5);
-    const battleship = Ship('battleship', 4);
-    const cruiser = Ship('cruiser', 3);
-    const submarine = Ship('submarine', 3);
-    const destroyer = Ship('destroyer', 2);
-    const carrierTwo = Ship('carrier', 5);
-    const battleshipTwo = Ship('battleship', 4);
-    const cruiserTwo = Ship('cruiser', 3);
-    const submarineTwo = Ship('submarine', 3);
-    const destroyerTwo = Ship('destroyer', 2);
     
     const playerOne = Player();
-    const pOneBoard = Gameboard();
-    
-    pOneBoard.ships.push(carrier);
-    pOneBoard.ships.push(battleship);
-    pOneBoard.ships.push(cruiser);
-    pOneBoard.ships.push(submarine);
-    pOneBoard.ships.push(destroyer);
-    
+    const pOneBoard = createBoard();
     
     const computer = Player();
-    const computerBoard = Gameboard();
-
-    computerBoard.ships.push(carrierTwo);
-    computerBoard.ships.push(battleshipTwo);
-    computerBoard.ships.push(cruiserTwo);
-    computerBoard.ships.push(submarineTwo);
-    computerBoard.ships.push(destroyerTwo);
+    const computerBoard = createBoard();
     
-    //player one place ships
     renderShips(pOneBoard); 
-
-    //computer to place ships
     compPlaceShips(computerBoard);
-    
+
     //turn loop
     // playerOne.myTurn = true;
-    let compDisplay = document.querySelector(".board.two");
-    compDisplay.addEventListener("click", (e)=> {
-        let x = parseInt(e.target.innerHTML.at(0));
-        let y = parseInt(e.target.innerHTML.at(1));
-    
+    const compDisplay = document.querySelector(".board.two");
+
+    // let playerDisplay = document.querySelector(".board.one");
+    compDisplay.addEventListener("mousedown", (e)=> {
+        const x = parseInt(e.target.innerHTML.at(0));
+        const y = parseInt(e.target.innerHTML.at(1));
+
         //check if cell has not been clicked yet
         if(e.target.classList[1] === "miss" ||
             e.target.classList[1] === "hit"){
@@ -73,18 +49,18 @@ const gameLoop = () => {
             
         //comp attacks
         smartMove(computer, pOneBoard);
-
-        pOneBoard.
             
     
         // check if game over
         if(pOneBoard.isAllSunk() || computerBoard.isAllSunk()){
+            console.log(pOneBoard);
+            console.log(pOneBoard.ships.every(e => e.isSunk()));
+            console.log(pOneBoard.isAllSunk());
+            console.log(computerBoard.isAllSunk());
             console.log(`game end`);
                 (pOneBoard.isAllSunk()) ? announceWinner("computer")
                                     : announceWinner("player");
-            //end game
-            //display winner
-            //reset 
+            resetGame();
         }
     
     })
