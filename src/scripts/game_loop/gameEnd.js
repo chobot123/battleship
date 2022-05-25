@@ -1,4 +1,3 @@
-import { shipsContainer } from '../UI/displayShips';
 import { init } from '../UI/init'
 import { gameLoop } from './gameLoop';
 

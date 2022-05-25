@@ -1,5 +1,4 @@
-import { shipCount } from "../game_loop/placeShips";
-import { getShips } from "./displayShips";
+import { getShips } from "./renderShips/displayShips";
 
 const { makeTitle } = require("./header");
 const { makeBoard } = require("./boards")

@@ -12,29 +12,37 @@ const smartMove = (player, enemyBoard) => {
         y : Math.floor(Math.random() * 10),
         
     }
-    
+
+    if(choice.x % 2 === 0){
+        while(choice.y % 2 !== 0){
+            choice.y = Math.floor(Math.random() * 10);
+        }
+    }
+    else {
+        while(choice.y % 2 === 0){
+            choice.y = Math.floor(Math.random() * 10);
+        }
+    }
+
     if(enemyBoard.myBoard[choice.x][choice.y].status !== 0){
         return smartMove(player, enemyBoard);
     }
 
-    if(moveList.length < 1) {
-        if(player.attack(enemyBoard, choice.x, choice.y)){
+    if(moveList.length === 0) {
+        let attackStatus = player.attack(enemyBoard, choice.x, choice.y);
+        if(attackStatus.hit){
             moveList.push(choice);
-            renderAttack(choice);
+            renderAttack(choice, attackStatus);
             return;
         }
         else {
-            renderAttack(choice, false);
+            renderAttack(choice, attackStatus);
             return;
         }
     }
-    else{ //theres a valid hit
-        //check direction until another hit
-        //if there is push
-        //if there isnt pop
+    else{ 
         checkAround(player, enemyBoard, moveList[moveList.length - 1].x,
             moveList[moveList.length - 1].y);
-
         return;    
     }
 }
@@ -54,64 +62,60 @@ const checkAround = (player, enemyBoard, x, y) => {
     //go up
     if(direction[count] === "up" && x > 0 && enemyBoard.myBoard[up][y].status === 0 ){
         choice.x = up;
-        //if it hits
-        if(player.attack(enemyBoard, up, y)){
+        let attackStatus = player.attack(enemyBoard, up, y);
+        if(attackStatus.hit){
             moveList.push(choice); //add to list 
-            renderAttack(choice);
+            renderAttack(choice, attackStatus);
         }
         else {
-            while(moveList.length > 1){
-                moveList.pop();
-            }
-            renderAttack(choice, false);
+            renderAttack(choice, attackStatus);
             count++;
         }
         return;
     }
+
     else if(direction[count] === "down" && x < 9 && enemyBoard.myBoard[down][y].status === 0 ){
         choice.x = down;
-        if(player.attack(enemyBoard, down, y)){
+        let attackStatus = player.attack(enemyBoard, down, y);
+        if(attackStatus.hit){
             moveList.push(choice);
-            renderAttack(choice);
+            renderAttack(choice, attackStatus);
             return;
         }
         else {
-            while(moveList.length > 1){
-                moveList.pop();
-            }
-            renderAttack(choice, false);
+
+            renderAttack(choice, attackStatus);
             count++;
         }
         return;
     }
+
     else if(direction[count] === "left" && y > 0 && enemyBoard.myBoard[x][left].status === 0){
         choice.y = left;
-        if(player.attack(enemyBoard, x, left)){
+        let attackStatus = player.attack(enemyBoard, x, left);
+        if(attackStatus.hit){
             moveList.push(choice);
-            renderAttack(choice);
+            renderAttack(choice, attackStatus);
             return;
         }
         else {
-            while(moveList.length > 1){
-                moveList.pop();
-            }
-            renderAttack(choice, false);
+
+            renderAttack(choice, attackStatus);
             count++;
         }
         return;
     }
     else if(direction[count] === "right" && y < 9 && enemyBoard.myBoard[x][right].status === 0 ){
         choice.y = right;
-        if(player.attack(enemyBoard, x, right)){
+        let attackStatus = player.attack(enemyBoard, x, right);
+        if(attackStatus.hit){
             moveList.push(choice);
-            renderAttack(choice);
+            renderAttack(choice, attackStatus);
             return;
         }
         else {
-            while(moveList.length > 1){
-                moveList.pop();
-            }
-            renderAttack(choice, false);
+
+            renderAttack(choice, attackStatus);
             count++;
         }
         return;
@@ -133,7 +137,7 @@ const checkAround = (player, enemyBoard, x, y) => {
     }
 }
 
-const renderAttack = (choice, isHit = true) => {
+const renderAttack = (choice, status) => {
 
     const enemyBoardDisplay = document.querySelector('.board.one');
     let x = choice.x;
@@ -143,11 +147,42 @@ const renderAttack = (choice, isHit = true) => {
         x = "";
     }
 
-    let coord = parseInt(x.toString() + y.toString());
-    
-    (isHit) ?
-        enemyBoardDisplay.children[coord].classList.add("hit"):
-        enemyBoardDisplay.children[coord].classList.add("miss");
+    let currentCoord = parseInt(x.toString() + y.toString());
+
+    if(status.hit){
+        if(status.sunk){
+            for(let i = 0; i < status.sunkCoord.length; i++){
+                let sunkenCoord = status.sunkCoord[i];
+                enemyBoardDisplay.childNodes.item(sunkenCoord)
+                    .classList.add("sunk");
+                
+                //resetMoveList
+                if(sunkenCoord < 10){
+                    moveList.splice(moveList.indexOf({
+                        x: '0',
+                        y: sunkenCoord.toString(),
+                    }), 1)
+                }else {
+                    let convertSunkenCoord = sunkenCoord.toString();
+                    moveList.splice(moveList.indexOf({
+                        x: convertSunkenCoord.charAt(0),
+                        y: convertSunkenCoord.charAt(1),
+                    }))
+                }
+            }
+            count = 0;
+        }
+        else {
+
+            enemyBoardDisplay.children[currentCoord].classList.add("hit");
+
+        }
+    }
+    else {
+        
+        enemyBoardDisplay.children[currentCoord].classList.add("miss");
+
+    }
 }
 
 const compPlaceShips = (computerBoard) => {

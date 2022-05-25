@@ -1,3 +1,5 @@
+const { indexOf } = require("lodash");
+
 const Gameboard = () => {
 
     const ships = [];
@@ -18,7 +20,6 @@ const Gameboard = () => {
         return tempArray;
     }
     const myBoard = createBoard();
-    
     const noOverlap = (myShip, x, y, align) => {
         if(align === 'horizontal'){
             for(let i = y; i < y + myShip.length && i <= 9; i++){
@@ -72,19 +73,42 @@ const Gameboard = () => {
     
     const receiveAttack = (x, y) => {
 
+        let status = {
+            ship: "",
+            hit: false,
+            sunk: false,
+            sunkCoord: [],
+        }
+
         if(myBoard[x][y].ship !== 'none'){
+            status.ship = myBoard[x][y].ship;
             for(let i = 0; i < ships.length; i++){
                 if(ships[i].name === myBoard[x][y].ship){
                     ships[i].hit(myBoard[x][y].shipPart);
+                    if(ships[i].isSunk()){
+                        status.sunk = true;
+                        status.sunkCoord = [...getSunkShip(ships[i].name)];
+                    }
                 }
             }
             myBoard[x][y].status = 2;
-            return true;
+            status.hit = true;
+            return status;
         }
         else {
             myBoard[x][y].status = 1;
-            return false;
+            return status;
         }
+    }
+
+    const getSunkShip = (ship) => {
+        let coords = [];
+        myBoard.flat().forEach((cell, index) => {
+            if(cell.ship === ship){
+                coords.push(index);
+            }
+        })
+        return coords;
     }
 
 
@@ -97,6 +121,7 @@ const Gameboard = () => {
         myBoard,
         placeShip,
         receiveAttack,
+        getSunkShip,
         isAllSunk
     }
 }

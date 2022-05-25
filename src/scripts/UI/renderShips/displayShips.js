@@ -65,25 +65,3 @@ const getShips = () => {
 }
 
 export { getShips, makeHorizontal, makeVertical}
-
-
-
-
-
-// const carrier = document.createElement("div");
-// const carrierWrapper = document.createElement("div");
-// carrierWrapper.className = "carrier";
-// carrierWrapper.appendChild(carrier);
-// carrier.className = "carrier-grid";
-// carrier.setAttribute("draggable", "true");
-
-// for(let i = 0; i < 5; i++){
-//     let cell = document.createElement("div");
-//     cell.className = "cell";
-//     cell.innerHTML = i;
-//     carrier.appendChild(cell);
-// }
-
-// const shipWrapper = document.createElement("div");
-// shipWrapper.className = `ship wrapper`;
-// shipWrapper.appendChild(carrierWrapper);

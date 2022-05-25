@@ -1,16 +1,5 @@
+import { makeHorizontal, makeVertical } from "./displayShips";
 
-/**
- * Get the position where the cursor placed the ship
- * see which position of the ship the user selected
- * based off (above) adjust ship placement in gameBoard
- */
-
-import { makeHorizontal, makeVertical } from "../UI/displayShips";
-
-/*
-    placeShip(carrier, 5, 7, vertical ) === true
-
-*/
 const renderShips = (gameBoard) => {
 
     let shipCount = 0;
@@ -92,7 +81,7 @@ const renderShips = (gameBoard) => {
                 location.y = "";
                 
             }
-        }, false)
+        })
 
     }
 
@@ -131,7 +120,7 @@ const renderShips = (gameBoard) => {
                 shipCount = 0;
             }
             reset();
-        }, false)
+        })
     }
 
     const renderShip = (myShip, x, y, align = 'vertical') => {

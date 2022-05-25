@@ -79,7 +79,7 @@ body, .content {
 }
 
 .sunk {
-    background-color: rgb(53, 0, 0);
+    background-color: rgb(29, 0, 0) !important;
 }
 
 .modal {
