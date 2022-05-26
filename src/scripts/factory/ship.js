@@ -33,6 +33,4 @@ const Ship = (name, length) => {
     }
 }
 
-// module.exports = Ship;
-
-export { Ship }
+export default Ship;

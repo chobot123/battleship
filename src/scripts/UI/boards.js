@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 const makeBoard = () => {
 
     const boards = document.createElement("div");
@@ -9,15 +7,26 @@ const makeBoard = () => {
     const playerTwo = document.createElement("div");
     playerOne.className = 'playerOne';
     playerTwo.className = 'playerTwo';
+    playerTwo.style.display = `none`;
 
     const pOneBoard = document.createElement("div");
     const pTwoBoard = document.createElement("div");
     pOneBoard.className = `board one`;
     pTwoBoard.className = `board two`;
-    pTwoBoard.style.display = `none`;
+
+    const pOneBoardTitle = document.createElement("id");
+    pOneBoardTitle.id = "board-title";
+    pOneBoardTitle.textContent = "My Board";
+
+    const pTwoBoardTitle = document.createElement("id");
+    pTwoBoardTitle.id = "board-title";
+    pTwoBoardTitle.textContent = "Computer Board";
+
 
     makeGrid(pOneBoard);
     makeGrid(pTwoBoard);
+    playerOne.appendChild(pOneBoardTitle);
+    playerTwo.appendChild(pTwoBoardTitle);
     playerOne.appendChild(pOneBoard);
     playerTwo.appendChild(pTwoBoard);
     boards.appendChild(playerOne);
@@ -42,4 +51,8 @@ const makeGrid = (thisBoard) => {
     }
 }
 
-export { makeBoard }
+const toggleBoardOpacity = (board) => {
+    board.classList.toggle("opacity");
+}
+
+export { makeBoard, toggleBoardOpacity }

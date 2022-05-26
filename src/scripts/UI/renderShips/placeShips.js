@@ -1,4 +1,6 @@
 import { makeHorizontal, makeVertical } from "./displayShips";
+import instructions from "../instructions";
+import { toggleBoardOpacity } from "../boards";
 
 const renderShips = (gameBoard) => {
 
@@ -22,7 +24,6 @@ const renderShips = (gameBoard) => {
         shipsContainer.addEventListener("mousedown" , (e) => {
             if(e.target.className === 'cell ship'){
                 index = e.target.innerHTML;
-                return index;
             }
         })
     }
@@ -48,11 +49,11 @@ const renderShips = (gameBoard) => {
     const getBoardLocation = () => {
         //when cursor enters a grid block 
         content.addEventListener("dragenter", (e) => {
-
             if(e.target.className === 'cell'){
                 location.target = e.target.innerHTML;
                 location.x = location.target.at(0);
                 location.y = location.target.at(1);
+
                 if(location.x === '0'){
                     location.target = location.target.at(1);
                 }      
@@ -68,7 +69,7 @@ const renderShips = (gameBoard) => {
                 }
                 else if(currentShip.classList[1] === 'horizontal'){
 
-                    (e.target.innerHTML.at(0) > 0) ? location.y = parseInt(location.y) - parseInt(index) 
+                    (e.target.innerHTML.at(1) > 0) ? location.y = parseInt(location.y) - parseInt(index) 
                     : location.y = parseInt(e.target.innerHTML.at(1));
 
                     location.x = parseInt(location.x);
@@ -96,7 +97,7 @@ const renderShips = (gameBoard) => {
 
     const setShip = () => {
         //when user chooses a place to place ship
-        content.addEventListener("dragend", () => {
+        content.addEventListener("dragend", (e) => {
             //we place ship
             //if valid, ship disappears from display onto board
             //else we start all over
@@ -105,7 +106,7 @@ const renderShips = (gameBoard) => {
                 let shipIndex = gameBoard.ships.findIndex(e => e.name === currentShip.classList[0]);
                 if(gameBoard.placeShip(gameBoard.ships[shipIndex], location.x,
                                         location.y, currentShip.classList[1])){
-                
+                                            
                     renderShip(currentShip, location.x, location.y, currentShip.classList[1]);
                     currentShip.style.display = 'none';
                     shipCount++;
@@ -115,9 +116,11 @@ const renderShips = (gameBoard) => {
 
             //if all ships are placed, reveal enemy board
             if(shipCount === 5){
-                let compDisplay = document.querySelector(".board.two");
+                let compDisplay = document.querySelector(".playerTwo");
                 compDisplay.style.display = ``;
+                instructions.gameInstructions();
                 shipCount = 0;
+                toggleBoardOpacity(compDisplay.previousSibling.lastChild); //.board.one
             }
             reset();
         })

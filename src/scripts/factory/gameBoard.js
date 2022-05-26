@@ -1,5 +1,3 @@
-const { indexOf } = require("lodash");
-
 const Gameboard = () => {
 
     const ships = [];
@@ -126,4 +124,4 @@ const Gameboard = () => {
     }
 }
 
-module.exports = Gameboard;
+export default Gameboard;

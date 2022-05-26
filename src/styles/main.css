@@ -8,6 +8,10 @@ body, .content {
     min-height: 100%;
 }
 
+#title {
+    text-align: center;
+}
+
 .board {
     display: grid;
     grid-template: repeat(10, minmax(0, 1fr)) / repeat(10, minmax(0, 1fr));
@@ -15,9 +19,14 @@ body, .content {
     min-height: 400px;
 }
 
+.board.two>*:hover {
+    border: 1px solid red;
+}
+
 .boards {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 20%;
 }
 
 .cell {
@@ -25,7 +34,9 @@ body, .content {
     justify-content: center;
     align-items: center;
     border: black solid 1px;
+    user-select: none;
 }
+
 
 .ship.wrapper {
     display: flex;
@@ -44,6 +55,11 @@ body, .content {
     display: flex;
     gap: 10px;
     align-items: center;
+    justify-content: center;
+}
+
+.ships-container>*:hover {
+    transform: scale(1.1);
 }
 
 
@@ -82,6 +98,10 @@ body, .content {
     background-color: rgb(29, 0, 0) !important;
 }
 
+.instructions {
+    text-align: center;
+}
+
 .modal {
     display: flex;
     position: fixed;
@@ -102,4 +122,8 @@ body, .content {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.opacity {
+    opacity: 0.2;
 }

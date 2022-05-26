@@ -6,11 +6,12 @@
     4)Attack method
 */
 
-import { Player } from "../factory/player";
+import Player from "../factory/player";
 import { renderShips } from "../UI/renderShips/placeShips";
-import { compPlaceShips, smartMove } from "./computerActions";
+import computerAttack, { compPlaceShips} from "./computerActions";
 import { announceWinner, resetGame } from "./gameEnd"
 import createBoard from "./createBoard";
+import { toggleBoardOpacity } from "../UI/boards";
 
 const gameLoop = () => {
     
@@ -24,10 +25,16 @@ const gameLoop = () => {
     compPlaceShips(computerBoard);
 
     //turn loop
+    const playerBoard = document.querySelector(".board.one");
     const enemyBoard = document.querySelector(".board.two");
+    
 
     //attack the enemy computer
-    enemyBoard.addEventListener("mousedown", (e)=> {
+    enemyBoard.addEventListener("mousedown", (e) => {
+
+        enemyBoard.style.pointerEvents = 'none';
+        toggleBoardOpacity(playerBoard);
+        toggleBoardOpacity(enemyBoard);
 
         const x = parseInt(e.target.innerHTML.at(0));
         const y = parseInt(e.target.innerHTML.at(1));
@@ -59,24 +66,29 @@ const gameLoop = () => {
 
             }
         }
-
+        
 
         // check if game over
-        if(pOneBoard.isAllSunk() || computerBoard.isAllSunk()){
-            (pOneBoard.isAllSunk()) ? announceWinner("computer")
+        if(computerBoard.isAllSunk()){
+            (computerBoard.isAllSunk()) ? announceWinner("computer")
                                 : announceWinner("player");
-        resetGame();
+            return resetGame();
         }
 
         //comp attacks
-        smartMove(computer, pOneBoard);
+        setTimeout(() => {
+            computerAttack.smartMove(computer, pOneBoard);
+            toggleBoardOpacity(playerBoard);
+            toggleBoardOpacity(enemyBoard);
+            enemyBoard.style.pointerEvents = 'auto';
+        }, 1000)
             
     
         // check if game over
-        if(pOneBoard.isAllSunk() || computerBoard.isAllSunk()){
+        if(pOneBoard.isAllSunk()){
                 (pOneBoard.isAllSunk()) ? announceWinner("computer")
                                     : announceWinner("player");
-            resetGame();
+            return resetGame();
         }
     
     })

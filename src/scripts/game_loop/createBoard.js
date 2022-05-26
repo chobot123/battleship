@@ -1,5 +1,5 @@
 import Gameboard from "../factory/gameBoard";
-import { Ship } from "../factory/ship";
+import Ship from "../factory/ship";
 
 const createBoard = () => {
     

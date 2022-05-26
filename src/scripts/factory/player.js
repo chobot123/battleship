@@ -13,5 +13,4 @@ const Player = () => {
     }
 }
 
-export { Player }
-// module.exports = Player;
+export default Player;
