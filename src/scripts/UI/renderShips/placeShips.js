@@ -95,6 +95,27 @@ const renderShips = (gameBoard) => {
         })
     }
 
+    const renderShip = (myShip, x, y, align = 'vertical') => {
+        if(x === 0){
+            x = "";
+        }
+        let coord = parseInt(x.toString() + y.toString());
+
+        let count = 0;
+        while(count < myShip.children.length) {
+            if(align === 'vertical'){
+                myBoard.children[coord].classList.add(myShip.classList[0]);
+                coord += 10;
+            }
+            else if(align === 'horizontal'){
+                myBoard.children[coord].classList.add(myShip.classList[0]);
+                coord += 1;
+            }
+            count++;
+        }
+
+    }
+
     const setShip = () => {
         //when user chooses a place to place ship
         content.addEventListener("dragend", (e) => {
@@ -126,27 +147,6 @@ const renderShips = (gameBoard) => {
         })
     }
 
-    const renderShip = (myShip, x, y, align = 'vertical') => {
-        if(x === 0){
-            x = "";
-        }
-        let coord = parseInt(x.toString() + y.toString());
-
-        let count = 0;
-        while(count < myShip.children.length) {
-            if(align === 'vertical'){
-                myBoard.children[coord].classList.add(myShip.classList[0]);
-                coord += 10;
-            }
-            else if(align === 'horizontal'){
-                myBoard.children[coord].classList.add(myShip.classList[0]);
-                coord += 1;
-            }
-            count++;
-        }
-
-    }
-
     //reset all parameters
     const reset = () => {
 
@@ -162,10 +162,9 @@ const renderShips = (gameBoard) => {
     getShipIndex();
     getShip();
     changeShipOrientation();
-    getBoardLocation();
+    getBoardLocation();        
     updateLocation();
     setShip();
-
 }
 
 export {renderShips}

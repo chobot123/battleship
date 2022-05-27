@@ -1,4 +1,4 @@
-const {Ship} = require('../scripts/factory/ship');
+import Ship from "../scripts/factory/ship";
 
 let proxy = Ship('test', 3);
 

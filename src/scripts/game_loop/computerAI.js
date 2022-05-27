@@ -1,33 +1,59 @@
+
+/**
+* Module
+* @description          The algorithm for the computer to attack
+*                       1) The computer makes a "choice" 
+*                       2) If the board tile is already hit, reroll
+*                       3) If there are no previous valid hits, add the first success to moveList
+*                       4) If there was a previous hit, check in the 4 cardinal directions for another hit 
+*                       5) Rinse and repeat until all ships are sunk
+ *          
+ * @returns { smartMove }
+ */
 const computerAttack =(() => {
 
     const moveList = [];
-    let count = 0;
+    let count = 0; //see @checkAround
 
+    /**
+     * Method
+     * @description                 The algorithm gets a coordinate (choice); since a ship has a minimum length of 2
+     *                              the choice needs to only be 'every other' grid cell (ie [0,0], [0,2]...[1,1], [1,3]).
+     *                              The algorithm uses this choice to target a grid cell, but if it has been already targeted
+     *                              it recursively runs the function until a valid cell is found, and attacks the cell, adding
+     *                              the choice to the moveList. If there are no previous moves found on the moveList, the algorithm 
+     *                              then 'checkAround' for its next target.
+     * 
+     * @param {Object} player       The player 
+     * @param {Object} enemyBoard   The board the player attacks
+     */
     const smartMove = (player, enemyBoard) => {
-    
-        // player.myTurn = false;
+        
         let choice = {
             
             x : Math.floor(Math.random() * 10),
             y : Math.floor(Math.random() * 10),
             
         }
-    
+        
+        //x is even -> y must be even
         if(choice.x % 2 === 0){
             while(choice.y % 2 !== 0){
                 choice.y = Math.floor(Math.random() * 10);
             }
         }
-        else {
+        //x is odd -> y must be odd
+        else { 
             while(choice.y % 2 === 0){
                 choice.y = Math.floor(Math.random() * 10);
             }
         }
-    
+        
+        //if the cell has already been hit, run smartMove again
         if(enemyBoard.myBoard[choice.x][choice.y].status !== 0){
             return smartMove(player, enemyBoard);
         }
-    
+        
         if(moveList.length === 0) {
             let attackStatus = player.attack(enemyBoard, choice.x, choice.y);
             if(attackStatus.hit){
@@ -40,13 +66,23 @@ const computerAttack =(() => {
                 return;
             }
         }
-        else{ 
+        else{ //if there are previous valid moves (there has been a successful hit before) 
+
             checkAround(player, enemyBoard, moveList[moveList.length - 1].x,
                 moveList[moveList.length - 1].y);
             return;    
         }
     }
     
+    /**
+     * Helper Function
+     * @description                    
+     * @param {Object} player       The player 
+     * @param {Object} enemyBoard   The board the player attacks
+     * @param {Number} x            x-coordinate of the board to attack
+     * @param {Number} y            y-coordinate of the board to attack
+     * @returns 
+     */
     const checkAround = (player, enemyBoard, x, y) => {
     
         const direction = ["up", "down", "left", "right"];
@@ -89,7 +125,6 @@ const computerAttack =(() => {
                 if(attackStatus.hit){
                     moveList.push(choice);
                     renderAttack(choice, attackStatus);
-                    return;
                 }
                 else {
                     renderAttack(choice, attackStatus);
@@ -109,7 +144,6 @@ const computerAttack =(() => {
                 if(attackStatus.hit){
                     moveList.push(choice);
                     renderAttack(choice, attackStatus);
-                    return;
                 }
                 else {
                     moveList.reverse();
@@ -131,7 +165,6 @@ const computerAttack =(() => {
                 if(attackStatus.hit){
                     moveList.push(choice);
                     renderAttack(choice, attackStatus);
-                    return;
                 }
                 else {
                     renderAttack(choice, attackStatus);
@@ -150,6 +183,7 @@ const computerAttack =(() => {
                 count = 0;
                 smartMove(player, enemyBoard);
         }
+        return;
     }
     
     const renderAttack = (choice, status) => {
