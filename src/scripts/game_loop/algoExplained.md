@@ -41,6 +41,7 @@ Now that the computer has a hit, it needs to consider the following:
   1) Check each cardinal direction until theres another hit
   2) Follow through in that direction until theres a miss or out of bounds
   3) Go to the initial spot and go in the reverse direction of (1) 
+        
         3a) So North + South, West + East
   4) Do (2) until it fails
   5) Review its short term memory of decisions from (1) - (4), and remove any coordinates
