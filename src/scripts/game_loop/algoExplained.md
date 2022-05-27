@@ -13,9 +13,7 @@ ie)
   
   
       0 1 2 3 4 5 6 7 8 9
-
     0 x   x   x   x   x
-
     1   x   x   x   x   x
 
 The grid shows that with this selection, the four cardinal directions of north, south, east, and
