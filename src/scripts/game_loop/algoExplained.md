@@ -52,10 +52,10 @@ Now that the computer has a hit, it needs to consider the following:
 This will guarantee that a ship will eventually sink with each sequential move. What checkAround
 also considers is the account for connected ships at the origin attack.
 
-___x1__ where x is origin attack
-   |
-   |
- __x2 another origin attack
+    ___x1__ where x is origin attack
+       |
+       |
+    __x2 another origin attack
 
 So in this case, the algorithm will check up (out of bounds), then down, clear the vertical line since its 
 sunk, then clear the horizontal in x1. It will then see that x2 is still exists after clearing x1 and its
