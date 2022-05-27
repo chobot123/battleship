@@ -27,7 +27,7 @@ const Ship = (name, length) => {
      * @description         Changes status of ship part from 'not hit' to 'hit'
      * 
      * @param {Number} pos  position of ship part
-     * @returns Boolean     Return TRUE, if hit
+     * @returns {Boolean}   Return TRUE, if hit
      */
     const hit = (pos) => {
         if(shipParts[pos].isHit === false) {
@@ -40,7 +40,7 @@ const Ship = (name, length) => {
      * Method
      * @description         Filters through each shipPart, and if all art hit, then ship is sunk
      * 
-     * @returns Boolean     Return TRUE, if all parts are hit, else return FALSE
+     * @returns {Boolean}   Return TRUE, if all parts are hit, else return FALSE
      */
     const isSunk = () => {
         if(shipParts.filter((e) => {return e.isHit === true}).length === length) {

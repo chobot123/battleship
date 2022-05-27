@@ -76,15 +76,22 @@ const computerAttack =(() => {
     
     /**
      * Helper Function
-     * @description                    
-     * @param {Object} player       The player 
-     * @param {Object} enemyBoard   The board the player attacks
-     * @param {Number} x            x-coordinate of the board to attack
-     * @param {Number} y            y-coordinate of the board to attack
-     * @returns 
+     * @description                 Using the most recent hit in moveList, the next move is chosen
+     *                              by iterating through a direction array that dictates the 
+     *                              cardinal direction the computer will choose next, until it misses.
+     *                              Then the moveList is reversed to get the initial position and move up
+     *                              in the direction array and repeats the step above. If a ship is sunk
+     *                              from the latest attack, @renderAttack deletes the cooresponding coordinates
+     *                              from moveList and does the above with, if any, remaining moves.
+     * 
+     * @param {Object} computer     The computer player object
+     * @param {Object} playerBoard  The player board object
+     * @param {Number} x            x-coordinate of the board to attack (most recent move in moveList)
+     * @param {Number} y            y-coordinate of the board to attack (most recent move in moveList)
      */
-    const checkAround = (player, enemyBoard, x, y) => {
+    const checkAround = (computer, playerBoard, x, y) => {
     
+        //count (in computerAttack) iterate through direction
         const direction = ["up", "down", "left", "right"];
         const up = x - 1;
         const down = x + 1;
@@ -95,33 +102,32 @@ const computerAttack =(() => {
             y : y,
         }
         
-        //go up
         if(direction[count] === "up"){
-            if(x > 0 && enemyBoard.myBoard[up][y].status === 0){
+            if(x > 0 && playerBoard.myBoard[up][y].status === 0){ //'empty' cell
                 choice.x = up;
-                let attackStatus = player.attack(enemyBoard, up, y);
+                let attackStatus = computer.attack(playerBoard, up, y);
                 if(attackStatus.hit){
                     moveList.push(choice); //add to list 
                     renderAttack(choice, attackStatus);
                 }
-                else {
-                    moveList.reverse();
+                else { //hit was miss
+                    moveList.reverse(); //reverses only in "up"/"left" to correspond with "down"/"right"
                     renderAttack(choice, attackStatus);
                     count++;
                 }
             }
-            else {
+            else { //cell is out of bounds or cell has already been hit
                 moveList.reverse();
                 count++;
-                smartMove(player, enemyBoard);
+                smartMove(computer, playerBoard);
             }
             
         }
     
         else if(direction[count] === "down"){
-            if(x < 9 && enemyBoard.myBoard[down][y].status === 0 ){
+            if(x < 9 && playerBoard.myBoard[down][y].status === 0 ){ 
                 choice.x = down;
-                let attackStatus = player.attack(enemyBoard, down, y);
+                let attackStatus = computer.attack(playerBoard, down, y);
                 if(attackStatus.hit){
                     moveList.push(choice);
                     renderAttack(choice, attackStatus);
@@ -133,14 +139,14 @@ const computerAttack =(() => {
             }
             else {
                 count++;
-                smartMove(player, enemyBoard);
+                smartMove(computer, playerBoard);
             }
         }
     
         else if(direction[count] === "left"){
-            if(y > 0 && enemyBoard.myBoard[x][left].status === 0){
+            if(y > 0 && playerBoard.myBoard[x][left].status === 0){
                 choice.y = left;
-                let attackStatus = player.attack(enemyBoard, x, left);
+                let attackStatus = computer.attack(playerBoard, x, left);
                 if(attackStatus.hit){
                     moveList.push(choice);
                     renderAttack(choice, attackStatus);
@@ -154,14 +160,14 @@ const computerAttack =(() => {
             else {
                 moveList.reverse();
                 count++;
-                smartMove(player, enemyBoard);
+                smartMove(computer, playerBoard);
             }
         }
 
         else if(direction[count] === "right"){
-            if(y < 9 && enemyBoard.myBoard[x][right].status === 0 ){
+            if(y < 9 && playerBoard.myBoard[x][right].status === 0 ){
                 choice.y = right;
-                let attackStatus = player.attack(enemyBoard, x, right);
+                let attackStatus = computer.attack(playerBoard, x, right);
                 if(attackStatus.hit){
                     moveList.push(choice);
                     renderAttack(choice, attackStatus);
@@ -173,7 +179,7 @@ const computerAttack =(() => {
             }
             else {
                 count = 0;
-                smartMove(player, enemyBoard);
+                smartMove(computer, playerBoard);
             }
         }
         else {
@@ -181,14 +187,24 @@ const computerAttack =(() => {
                     moveList.pop();
                 }
                 count = 0;
-                smartMove(player, enemyBoard);
+                smartMove(computer, playerBoard);
         }
         return;
     }
     
+    /**
+     * Helper Function
+     * @description    Renders whether the attack was a hit or miss and adds to the classList
+     *                 accordinly. If the ship is sunk, gets all coordinates and adds to the 
+     *                 classList accordingly. Removes all ship coordinates in moveList
+     *                 that corespond with the sunken ship.
+     * 
+     * @param {Object} choice coordinates
+     * @param {Object} status Status of ship to check if sunk
+     */
     const renderAttack = (choice, status) => {
     
-        const enemyBoardDisplay = document.querySelector('.board.one');
+        const playerBoardDisplay = document.querySelector('.board.one');
         let x = choice.x;
         let y = choice.y;
     
@@ -202,7 +218,7 @@ const computerAttack =(() => {
             if(status.sunk){
                 for(let i = 0; i < status.sunkCoord.length; i++){
                     let sunkenCoord = status.sunkCoord[i];
-                    enemyBoardDisplay.childNodes.item(sunkenCoord)
+                    playerBoardDisplay.childNodes.item(sunkenCoord)
                         .classList.add("sunk");
                     
                     //resetMoveList
@@ -223,13 +239,13 @@ const computerAttack =(() => {
             }
             else {
     
-                enemyBoardDisplay.children[currentCoord].classList.add("hit");
+                playerBoardDisplay.children[currentCoord].classList.add("hit");
     
             }
         }
         else {
             
-            enemyBoardDisplay.children[currentCoord].classList.add("miss");
+            playerBoardDisplay.children[currentCoord].classList.add("miss");
     
         }
     }
@@ -239,11 +255,16 @@ const computerAttack =(() => {
     }
 })();
 
+/**
+ * @description                     Randomly places ships on the board  
+ * 
+ * @param {Object} computerBoard    The computer board
+ */
 const compPlaceShips = (computerBoard) => {
 
     let placeCount = 0;
     while(placeCount < 5){
-        let alignment = Math.floor(Math.random() * 2);
+        let alignment = Math.floor(Math.random() * 2); 
         (alignment === 0) ? alignment = 'vertical' : alignment = 'horizontal';
         if(computerBoard.placeShip(computerBoard.ships[placeCount],
                                     Math.floor(Math.random() * 10),

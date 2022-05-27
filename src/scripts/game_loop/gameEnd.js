@@ -1,7 +1,12 @@
 import { init } from '../UI/init'
 import { gameLoop } from './gameLoop';
 
-
+/**
+ * @description              Creates a modal that declares winner and asks the player to 
+ *                           restart the game
+ * 
+ * @param {Object} player 
+ */
 const announceWinner = (player) => {
 
     const content = document.querySelector(".content");
@@ -14,12 +19,12 @@ const announceWinner = (player) => {
     modalContent.className = "modal-content";
 
     const winner = document.createElement("p");
-    (player === "computer") ? winner.innerHTML = `You have lost the battle!`
-                            : winner.innerHTML = `You have defeated the enemy!`;
+    (player === "computer") ? winner.innerText = `You have lost the battle!`
+                            : winner.innerText = `You have defeated the enemy!`;
 
     const restartBtn = document.createElement("button");
     restartBtn.className = "restart";
-    restartBtn.innerHTML = `Play Again?`;
+    restartBtn.innerText = `Play Again?`;
 
     content.appendChild(myModal);
     myModal.appendChild(modalContent);
@@ -28,11 +33,15 @@ const announceWinner = (player) => {
 
 }
 
+
+/**
+ * @description     Adds an event listener to the restart button that deletes all DOM elements
+ *                  and then reinitializes the game
+ */
 const resetGame = () => {
     const reset = document.querySelector(".restart");
 
     reset.addEventListener("click", () => {
-        console.log('works')
         while(document.body.lastChild){
             document.body.removeChild(document.body.lastChild);
         }

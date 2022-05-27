@@ -1,4 +1,8 @@
-const makeBoard = () => {
+/**
+ * @description           Creates the DOM boards for player and computer  
+ * @returns { boards }    The DOM container holding both boards
+ */
+const makeBoards = () => {
 
     const boards = document.createElement("div");
     boards.className = "boards";
@@ -35,7 +39,11 @@ const makeBoard = () => {
     return boards;
 }
 
-//make a grid with class names as array col and rows
+/**
+ * @description                     Creates cells for the board grid
+ * 
+ * @param {DOMElement} thisBoard    Board DOM element
+ */
 const makeGrid = (thisBoard) => {
     let j = 0;
     for(let i = 0; i < 100; i++) {
@@ -51,8 +59,12 @@ const makeGrid = (thisBoard) => {
     }
 }
 
+/**
+ * @description                 Changes opacity of the board 
+ * @param {DOMElement} board    Board DOM element
+ */
 const toggleBoardOpacity = (board) => {
     board.classList.toggle("opacity");
 }
 
-export { makeBoard, toggleBoardOpacity }
+export { makeBoards, toggleBoardOpacity }

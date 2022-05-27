@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@700&display=swap');
+
 html {
     height: 100%;
-    overflow: hidden;
 }
 
 body {
-    background-color: grey;
+    background-color: rgb(206, 205, 205);
 }
 
 body, .content {
@@ -16,12 +18,15 @@ body, .content {
     text-align: center;
     margin: 0;
     padding: 1rem;
+    font-family: 'Special Elite', cursive;
 }
 
 #board-title {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Arvo', serif;
+    padding: 1rem 0px;
 }
 
 .board {
@@ -71,32 +76,17 @@ body, .content {
     margin: 1rem;
 }
 
+.ships-container>*,
+.carrier,
+.battleship,
+.cruiser,
+.destroyer,
+.submarine {
+    background-color: antiquewhite;
+}
+
 .ships-container>*:hover {
     transform: scale(1.1);
-}
-
-
-.carrier,
-.carrier-container {
-    background-color: darkblue;
-}
-
-.battleship,
-.battleship-container {
-    background-color: pink;
-}
-
-.cruiser,
-.cruiser-container {
-    background-color: lightgreen;
-}
-.submarine,
-.submarine-container {
-    background-color: rgb(80, 0, 98);
-}
-.destroyer,
-.destroyer-container {
-    background-color: yellow;
 }
 
 .hit {
@@ -113,6 +103,10 @@ body, .content {
 
 .instructions {
     text-align: center;
+    font-size: 1.25rem;
+    padding: 1rem 0px;
+    font-weight: bolder;
+    color: darkred;
 }
 
 .modal {
@@ -145,5 +139,5 @@ body, .content {
 }
 
 .opacity {
-    opacity: 0.2;
+    opacity: 0.4;
 }

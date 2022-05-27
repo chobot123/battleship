@@ -45,7 +45,7 @@ const Gameboard = () => {
      * @param {Number} x              First parameter of the 2D array, myBoard, and the x-coordinate
      * @param {Number} y              Second parameter of the 2D array, myBoard, and the y-coordinate
      * @param {String} align          The alignment of the ship ('vertical' or 'horizontal')
-     * @returns Boolean               Return TRUE if there is no coinciding ship on the board coordinates, else return FALSE
+     * @returns {Boolean}             Return TRUE if there is no coinciding ship on the board coordinates, else return FALSE
      */
     const noOverlap = (myShip, x, y, align) => {
         if(align === 'horizontal'){
@@ -74,7 +74,7 @@ const Gameboard = () => {
      * @param {Number} x              First parameter of the 2D array, myBoard, and the x-coordinate
      * @param {Number} y              Second parameter of the 2D array, myBoard, and the y-coordinate
      * @param {String} align          The alignment of the ship ('vertical' or 'horizontal')
-     * @returns Boolean               Return TRUE, if ship has been placed on a valid position, and return FALSE, if spot is invalid
+     * @returns {Boolean}             Return TRUE, if ship has been placed on a valid position, and return FALSE, if spot is invalid
      */
     const placeShip = (myShip, x, y, align) => {
         x = parseInt(x);
@@ -116,7 +116,7 @@ const Gameboard = () => {
      * 
      * @param {Number} x              First parameter of the 2D array, myBoard, and the x-coordinate
      * @param {Number} y              Second parameter of the 2D array, myBoard, and the y-coordinate
-     * @returns status                An object that records the ship name, hit status, sunk status, and all the
+     * @returns {status}              An object that records the ship name, hit status, sunk status, and all the
      *                                coordinates on the board that coincide with said sunk ship, if any
      */
     const receiveAttack = (x, y) => {
@@ -152,7 +152,7 @@ const Gameboard = () => {
      * Helper Function
      * @description                 Get the coordinates of a ship
      * @param {String} shipName     The name of the ship
-     * @returns coords              An array of coordinates (0 -> 99)
+     * @returns {coords}            An array of coordinates (0 -> 99)
      */
     const getShip = (shipName) => {
         let coords = [];
@@ -167,7 +167,7 @@ const Gameboard = () => {
     /**
      * Method
      * @description         Check whether all the ships on the board are sunk
-     * @returns Boolean     Returns a boolean based on the above
+     * @returns {Boolean}   Returns a boolean based on the above
      */
     const isAllSunk = () => {
         return (ships.every(e => e.isSunk() === true));

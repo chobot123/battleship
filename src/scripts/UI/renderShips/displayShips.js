@@ -1,3 +1,9 @@
+/**
+ * @description                 Creates a ship with length cells and with className name
+ * @param {String} name         Name of ship
+ * @param {Number} length       Length of ship
+ * @returns { shipWrapper }     Ship element
+ */
 const displayShip = (name, length) => {
 
         const shipWrapper = document.createElement("div");
@@ -22,14 +28,18 @@ const displayShip = (name, length) => {
             cell.className = "cell";
             cell.classList.add("ship");
             cell.innerHTML = i;
-            cell.setAttribute("clickable", "false");
             cell.style.color = "transparent";
-            cell.setAttribute("draggable", "false");
             ship.appendChild(cell);
         }
         return shipWrapper;
 }
 
+/**
+ * @description                 Makes ship vertical in alignment by removing the class ('horizontal')
+ *                              and adding the class ('vertical')
+ * 
+ * @param {DOMElement} ship     Ship DOM element
+ */
 const makeVertical = (ship) => {
 
     ship.classList.remove('horizontal');
@@ -40,6 +50,12 @@ const makeVertical = (ship) => {
     ship.style.gridTemplateColumns = "";
 }
 
+/**
+ * @description                 Makes ship horizontal in alignment by removing the class ('vertical')
+ *                              and adding the class ('horizontal')
+ * 
+ * @param {DOMElement} ship     Ship DOM element
+ */
 const makeHorizontal = (ship) => {
 
     ship.classList.remove('vertical');
@@ -50,6 +66,11 @@ const makeHorizontal = (ship) => {
     ship.style.gridTemplateRows = "";
 }
 
+/**
+ * @description                     Creates a container for all ships and appends all ships to said container
+ * 
+ * @returns { shipsContainer }      DOM element containing all ships to place
+ */
 const getShips = () => {
 
     const shipsContainer = document.createElement("div");

@@ -1,6 +1,12 @@
 
 
-
+/**
+ * Module
+ * 
+ * @description                                     Creates instructions for when the player
+ *                                                  is supposed to place ships and game objective afterwords
+ * @returns { shipInstructions, gameInstructions }
+ */
 const instructions = (() => {
 
     const instructions = document.createElement("div");
@@ -17,7 +23,6 @@ const instructions = (() => {
     }
 
     return {
-        instructions,
         shipInstructions,
         gameInstructions,
     }

@@ -2,16 +2,24 @@ import { makeHorizontal, makeVertical } from "./displayShips";
 import instructions from "../instructions";
 import { toggleBoardOpacity } from "../boards";
 
+/**
+ * @description                 Contains a series of event handlers that handles
+ *                              orienting and placing the ships on the board DOM.
+ *                              renderShips 'ends' when all ships are on the board
+ * 
+ * @param {Object} gameBoard 
+ */
 const renderShips = (gameBoard) => {
 
-    let shipCount = 0;
+    let shipCount = 0; //counts number of ships on the board
 
     const shipsContainer = document.querySelector(".ships-container")
     const content = document.querySelector(".content")
     const myBoard = document.querySelector(".board.one");
-    let index = "";
-    let currentShip = "";
-    let location = {
+
+    let index = ""; //cell chosen by player to hold ship by
+    let currentShip = ""; //ship selected
+    let location = {    //coordinates
         target : "",
         x : "",
         y : "",
@@ -142,6 +150,7 @@ const renderShips = (gameBoard) => {
                 instructions.gameInstructions();
                 shipCount = 0;
                 toggleBoardOpacity(compDisplay.previousSibling.lastChild); //.board.one
+                shipsContainer.remove();
             }
             reset();
         })

@@ -1,6 +1,12 @@
 import Gameboard from "../factory/gameBoard";
 import Ship from "../factory/ship";
 
+/**
+ * @description         Creates a gameBoard object and fills the 
+ *                      ships array with standard Battleship Ships
+ * 
+ * @returns { board }   Returns the gameBoard with updated ships
+ */
 const createBoard = () => {
     
     const board = Gameboard();

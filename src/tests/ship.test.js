@@ -3,7 +3,7 @@ import Ship from "../scripts/factory/ship";
 let proxy = Ship('test', 3);
 
 let hitProxy = Ship('hit', 5);
-//all parts are hit
+
 for(let i = 0; i < hitProxy.shipParts.length; i++){
     hitProxy.hit(i);
 }
