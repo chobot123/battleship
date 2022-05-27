@@ -31,7 +31,7 @@
 
 ## Features
 - Unit testing approach for smooth implementation of logic into DOM manipulation
-- 'Smart'(er than random) Computer algorithm
+- ['Smart'(er than random) Computer algorithm](https://github.com/chobot123/battleship/blob/main/src/scripts/game_loop/algoExplained.md)
 - Utilizes factory functions for game objects
 - Utilizes a modular approach in order to avoid polluting global namespace w/ variables
 
