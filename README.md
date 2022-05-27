@@ -23,7 +23,7 @@
 
 ## Setup
 
-- Clone the repository: git@github.com:chobot123/battleship.git
+- Clone the repository:  git@github.com:chobot123/battleship.git
 - cd battleship
 - npm install
 - npm start
